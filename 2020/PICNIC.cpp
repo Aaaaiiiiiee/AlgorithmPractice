@@ -3,6 +3,7 @@
 *	책 "알고리즘 문제 해결 전략 1" / 구종만 저 / 인사이트 / p.150
 
 *	Aaaaiiiiiee
+*	4C2 * 2C2 / 2! 형태의 pair별 중복을 골라내지 못함. 확통을 이용해 2!을 임의로 나눠주는 방식으로 풀이함.
 */
 #include <iostream>
 using namespace std;
