@@ -9,6 +9,8 @@
 #include <vector>
 #include <string>
 using namespace std;
+#define LOCAL
+#pragma warning(disable : 4996)
 
 string input;
 
@@ -17,6 +19,10 @@ void swap(string&, string&);
 
 int main(void)
 {
+#ifdef LOCAL
+	freopen("input.txt", "r", stdin);
+#endif
+
 	int C;	cin >> C;
 	while (C--)
 	{
