@@ -13,3 +13,5 @@ Debug
 #*.txt
 *.pptx
 *.pdf
+
+*.out
