@@ -16,4 +16,4 @@ Debug
 *.pdf
 
 *.out
-${fileBasenameNoExtension}
+[_a-zA-Z0-9\\-\\.]+
