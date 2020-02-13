@@ -1,20 +1,12 @@
-/*
- *	https://https://www.algospot.com/judge/problem/read/FENCE
- *	책 "알고리즘 문제 해결 전략 1" / 구종만 저 / 인사이트 / p. 195
-
- *	Aaaaiiiiiee
- *	2020/02/07
- */
 #include <iostream>
-#include <algorithm>
+#include <vector>
 using namespace std;
 
-//#define LOCAL
+#define LOCAL
 
-int* height;
-int N;				// 판자 갯수
+vector<int> h;
 
-int FindMaxSizeSquare();
+int solve(int, int);
 
 int main(void)
 {
@@ -25,48 +17,54 @@ int main(void)
 	int C;	cin >> C;
 	while(C--)
 	{
-		/* Init Data */
-		cin >> N;
-		height = new int[N];
+		int N;	cin >> N;
 		for(int i=0; i<N; i++)
-			cin >> height[i];
+		{
+			int tmp;	cin >> tmp;
+			h.push_back(tmp);
+		}
 
-		/* Print Result */
-		cout << FindMaxSizeSquare() << endl;
+		cout << solve(0, h.size()) << endl;
 
-		delete[]height;
+		h.clear();
 	}
 
 	return 0;
 }
 
-int FindMaxSizeSquare()
+int solve(int left, int right)
 {
-	int* sorted_height = new int[N];
-	copy(height, height + N, sorted_height);
-	sort(sorted_height, sorted_height + N);
+	// 기저사례 : 판자가 하나밖에 없는 경우
+	if(left == right) return h[left];
 
-	int ret = 0;
-	for(int cur_height_idx = 0; cur_height_idx < N; cur_height_idx++)
+	// [left, mid], [mid + 1, right]의 두 구간으로 문제를 분할한다.
+	int mid = (left + right) / 2;
+
+	// 분할한 문제를 각개격파
+	int ret = max(solve(left, mid), solve(mid + 1, right));
+	// 부분 문제 3 : 두 부분에 모두 걸치는 사각형 중 가장 큰 것을 찾는다.
+	int lo = mid, hi = mid + 1;
+	int height = min(h[lo], h[hi]);
+	
+	// [mid, mid + 1]만 포함하는 너비 2인 사각형을 고려한다.
+	ret = max(ret, height * 2);
+	// 사각형이 입력 전체를 덮을 때까지 확장해 나간다.
+	while(left < lo || hi < right)
 	{
-		auto cur_height = sorted_height[cur_height_idx];
+		// 항상 높이가 더 높은 쪽으로 확장한다.
+		if(hi < right && (lo == left || h[lo - 1] < h[hi + 1]))
+		{
+			hi++;
+			height = min(height, h[hi]);
+		}
+		else
+		{
+			lo--;
+			height = min(height, h[lo]);
+		}
 
-		// Find place cut-off in Variable max_wid
-		int max_wid = 0, past_cut_idx = -1;
-		for(int num = 0; num < N; num++)
-			if(height[num] - sorted_height[cur_height_idx] < 0)
-			{
-				max_wid = max(max_wid, num - (past_cut_idx + 1));
-				past_cut_idx = num;
-			}
-		max_wid = max(max_wid, N - (past_cut_idx + 1));
-
-		// Calculate
-		int cur_size_max = cur_height * max_wid;
-		ret = max(ret, cur_size_max);
+		// 확장한 후 사각형의 높이
+		ret = max(ret, height*(hi - lo + 1));
 	}
-
-	delete[]sorted_height;
-
 	return ret;
 }
