@@ -44,10 +44,10 @@ int main(void)
 int WildCard(string::iterator w_it, string::iterator f_it)
 {
 	// 기저사례
-	if(w_it == w.end())	return 1;
 	if(*w_it == *f_it)
 	{
-		if(w_it + 1 == w.end())		return 1;
+		if(w_it + 1 == w.end() && f_it + 1 != filename.end())
+			return 1;
 		if(f_it + 1 == filename.end())
 			if(*w_it == '*')
 				return 1;
@@ -56,13 +56,13 @@ int WildCard(string::iterator w_it, string::iterator f_it)
 
 		return WildCard(w_it + 1, f_it + 1);
 	}
-	else if(*w_it != *f_it)
-		return 0;
+	else if (*w_it == '?')	return WildCard(w_it + 1, f_it + 1);
+	else if(*w_it != '*' && *w_it != *f_it)	return 0;
+
+	//if (w_it == w.end())	return 1;
 
 	if(w_it + 1 == w.end())				return 1;
 	else if(f_it + 1 == filename.end())	return 0;
-
-	if(*w_it == '?')	return WildCard(w_it + 1, f_it + 1);
 
 	int idx = *(w_it + 1) - 'a';
 	
