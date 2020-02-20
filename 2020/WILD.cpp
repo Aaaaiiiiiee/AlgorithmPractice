@@ -49,6 +49,7 @@ int main(void)
 
 bool match(const string& w, const string& s)
 {
+<<<<<<< HEAD
 	// w[pos]와 s[pos]를 맞춰나간다.
 	int pos = 0;
 	while(pos < s.size() && pos < w.size() &&
@@ -74,6 +75,33 @@ bool matchMemoized(int w, int s)
 {
 	// 메모이제이션
 	int& ret = cache[w][s];
+=======
+	// 기저사례
+	if(*w_it == *f_it)
+	{
+		if(w_it + 1 == w.end() && f_it + 1 != filename.end())
+			return 1;
+		if(f_it + 1 == filename.end())
+			if(*w_it == '*')
+				return 1;
+			else
+				return 0;
+
+		return WildCard(w_it + 1, f_it + 1);
+	}
+	else if (*w_it == '?')	return WildCard(w_it + 1, f_it + 1);
+	else if(*w_it != '*' && *w_it != *f_it)	return 0;
+
+	//if (w_it == w.end())	return 1;
+
+	if(w_it + 1 == w.end())				return 1;
+	else if(f_it + 1 == filename.end())	return 0;
+
+	int idx = *(w_it + 1) - 'a';
+	
+	// Memoization
+	int& ret = cache[idx];
+>>>>>>> 3779db14a360beac353e113b344f769c152e533c
 	if(ret != -1)	return ret;
 
 	// W[w]와 S[s]를 맞춰나간다.
