@@ -18,3 +18,4 @@ Debug
 *.out
 DEBUG
 *.hpp.gch
+Template.cpp
