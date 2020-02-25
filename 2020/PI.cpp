@@ -50,9 +50,11 @@ int PI(const int& n)
 	int& ret = cache[n];
 	if(ret != INF)	return ret;
 
-	ret = min(ret, PI(n + 3) + checkDifficulty(n, 3));
-	ret = min(ret, PI(n + 4) + checkDifficulty(n, 4));
-	ret = min(ret, PI(n + 5) + checkDifficulty(n, 5));
+//	ret = min(ret, PI(n + 3) + checkDifficulty(n, 3));
+//	ret = min(ret, PI(n + 4) + checkDifficulty(n, 4));
+//	ret = min(ret, PI(n + 5) + checkDifficulty(n, 5));
+	for(int cut = 3; cut <= 5; cut++)
+		ret = min(ret, PI(n + cut) + checkDifficulty(n, cut));
 	
 	return ret;
 }
